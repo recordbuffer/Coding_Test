@@ -6,6 +6,8 @@ public class HelloWorld {
 	public static void main(String[] args) {
 		//HelloWorld.helloWorld();
 		//HelloWorld.kriii();
+		//HelloWorld.cat();
+		//HelloWorld.dog();
 		//HelloWorld.plus();
 		//HelloWorld.minus();
 		//HelloWorld.div();
@@ -20,6 +22,19 @@ public class HelloWorld {
 	public static void kriii() {
 		System.out.println("강한친구 대한육군");
 		System.out.println("강한친구 대한육군");
+	}
+	public static void cat() {
+		System.out.println("\\    /\\");
+		System.out.println(" )  ( ')");
+		System.out.println("(  /  )");
+		System.out.println(" \\(__)|");
+	}
+	public static void dog() {
+		System.out.println("|\\_/|");
+		System.out.println("|q p|   /}");
+		System.out.println("( 0 )\"\"\"\\");
+		System.out.println("|\"^\"`    |");
+		System.out.println("||_/=\\\\__|");
 	}
 	public static void plus() {
 		Scanner sc = new Scanner(System.in);
@@ -65,6 +80,11 @@ public class HelloWorld {
 		System.out.println(((A%C)*(B%C))%C);
 	}
 	public static void mul() {
+		Scanner sc = new Scanner(System.in);
+		int x = sc.nextInt();
+		String y = sc.nextLine();
+		
 
+		
 	}
 }
