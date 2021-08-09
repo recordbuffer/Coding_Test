@@ -125,8 +125,21 @@ public class LoopFor {
 	public static void revStar() {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
-		
-		
+				
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				if(j==i) {
+					for(int k=1; k<n-i; k++) {
+						System.out.print(" ");
+					}
+					for(int l=1; l<=j+1; l++) {
+						System.out.print("*");
+					}
+				}
+			}
+			System.out.println();
+		}
+	
 	}
 	public static void nx() {
 		Scanner sc = new Scanner(System.in);
