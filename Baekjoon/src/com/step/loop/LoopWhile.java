@@ -37,31 +37,20 @@ public class LoopWhile {
 
 	public static void cycle() {
 		Scanner sc = new Scanner(System.in);
-		String N = sc.nextLine();
-
-		int a = Integer.parseInt(N.substring(0, 1));
-		int b = Integer.parseInt(N.substring(1));
-
+		int N = sc.nextInt();
+		
 		int cnt = 0;
-
-		while (true) {
-
-			int x = a;
-			int y = b;
-			int z = x + y;
-
-			if (z > 10) {
-				z = z - 10;
-			}
-
-			x = y;
-			y = z;
-
-			if(x==a && y==b) break;
-
+		
+		int x = N;	//사이클 후 숫자
+	
+		while(true) {
+			
+			x = (((x%10)*10)+((x/10)+(x%10))%10);
 			cnt++;
+			
+			if(N==x) break;
 		}
-
+		
 		System.out.println(cnt);
 	}
 }
