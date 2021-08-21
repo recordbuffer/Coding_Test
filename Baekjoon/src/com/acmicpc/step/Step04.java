@@ -1,12 +1,12 @@
-package com.step.loop;
+package com.acmicpc.step;
 
 import java.util.Scanner;
 
-public class LoopWhile {
+public class Step04 {
 	public static void main(String[] args) {
 		// LoopWhile.AandB();
 		// LoopWhile.AandB2();
-		LoopWhile.cycle();
+		Step04.cycle();
 	}
 
 	public static void AandB() {

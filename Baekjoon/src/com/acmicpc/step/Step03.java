@@ -1,4 +1,4 @@
-package com.step.loop;
+package com.acmicpc.step;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class LoopFor {
+public class Step03 {
 	public static void main(String[] args) throws IOException {
 		//LoopFor.gugudan();
 		//LoopFor.sum();
@@ -18,7 +18,7 @@ public class LoopFor {
 		//LoopFor.caseX();
 		//LoopFor.caseABC();
 		//LoopFor.star();
-		LoopFor.revStar();
+		Step03.revStar();
 		//LoopFor.nx();
 	}
 

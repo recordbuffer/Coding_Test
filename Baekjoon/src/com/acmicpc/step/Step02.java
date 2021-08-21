@@ -1,14 +1,14 @@
-package com.step.loop;
+package com.acmicpc.step;
 
 import java.util.Scanner;
 
-public class LoopIf {
+public class Step02 {
 	public static void main(String[] args) {
 		//LoopIf.AandB();
 		//LoopIf.grade();
 		//LoopIf.year();
 		//LoopIf.quadrant();
-		LoopIf.alarm();
+		Step02.alarm();
 	}
 	
 	public static void AandB() {

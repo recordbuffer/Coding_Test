@@ -1,19 +1,19 @@
-package com.step.io;
+package com.acmicpc.step;
 
 import java.util.Scanner;
 
-public class HelloWorld {
+public class Step01 {
 	public static void main(String[] args) {
-		//HelloWorld.helloWorld();
-		//HelloWorld.kriii();
-		//HelloWorld.cat();
-		//HelloWorld.dog();
-		//HelloWorld.plus();
-		//HelloWorld.minus();
-		//HelloWorld.div();
-		//HelloWorld.operation();
-		//HelloWorld.remainder();
-		HelloWorld.mul();
+		//Step01.helloWorld();
+		//Step01.kriii();
+		//Step01.cat();
+		//Step01.dog();
+		//Step01.plus();
+		//Step01.minus();
+		//Step01.div();
+		//Step01.operation();
+		//Step01.remainder();
+		Step01.mul();
 	}
 	
 	public static void helloWorld() {
