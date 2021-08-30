@@ -6,7 +6,7 @@ public class Step06 {
 	public static void main(String[] args) {
 
 	}
-	public static void selfN() {
+	public static void q4673() {
 		
 	}
 }
