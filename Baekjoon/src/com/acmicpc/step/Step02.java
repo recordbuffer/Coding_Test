@@ -79,10 +79,7 @@ public class Step02 {
 			} else {
 				H-=1;
 			}
-		} 
-		
-		
-		System.out.println(H+" "+M);
-		
+		} 	
+		System.out.println(H+" "+M);		
 	}
 }

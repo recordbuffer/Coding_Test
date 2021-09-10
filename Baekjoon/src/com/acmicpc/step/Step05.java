@@ -67,7 +67,7 @@ public class Step05 {
 		int ABC = A*B*C;
 		String sABC = Integer.toString(ABC);
 
-		//¼ıÀÚ °³¼ö ¼¼±â		
+		//ìˆ«ì ê°œìˆ˜ ì„¸ê¸°		
 		for(int i=0; i<=9; i++) {
 			int cnt = 0;
 			for(int j=0; j<sABC.length(); j++) {
@@ -82,7 +82,7 @@ public class Step05 {
 		
 		Set<Integer> s = new HashSet<Integer>();
 		
-		//¹è¿­ ³ª¸ÓÁö ÀúÀå
+		//ë°°ì—´ ë‚˜ë¨¸ì§€ ì €ì¥
 		for(int i=0; i<10; i++ ) {
 			int n = sc.nextInt();
 			
@@ -98,7 +98,7 @@ public class Step05 {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
 		
-		//Á¡¼ö ÀÔ·Â¹Ş±â, ÃÖ´ñ°ª ±¸ÇÏ±â
+		//ì ìˆ˜ ì…ë ¥ë°›ê¸°, ìµœëŒ“ê°’ êµ¬í•˜ê¸°
 		double[] arr = new double[N];
 		
 		double M = arr[0];
@@ -110,7 +110,7 @@ public class Step05 {
 		}
 		sc.close();
 		
-		//Á¡¼ö Á¶ÀÛ + »õ·Î¿î Æò±Õ
+		//ì ìˆ˜ ì¡°ì‘ + ìƒˆë¡œìš´ í‰ê· 
 		double sum=0;
 		
 		for(int i=0; i<N; i++) {
@@ -127,21 +127,21 @@ public class Step05 {
 		
 		String[] arr = new String[N];
 		
-		//¹è¿­¿¡ ÀúÀå
+		//ë°°ì—´ì— ì €ì¥ 
 		for(int i=0; i<N; i++) {
 			arr[i]=sc.next();
 		}
 		sc.close();
 		
-		//ÇÏ³ª¾¿ OXÄûÁî °Ë»ç
-		//¹è¿­ ¹æ °³¼ö¸¸Å­ ¹İº¹
+		//í•˜ë‚˜ì”© OXí€´ì¦ˆ ê²€ì‚¬
+		//ë°°ì—´ ë°© ê°œìˆ˜ë§Œí¼ ë°˜ë³µ
 		for(int i=0; i<N; i++) {
 			int cnt=0;
 			int sum=0;
 			
-			//¹è¿­ ÇÑ ¹æÀÇ ±æÀÌ ¸¸Å­ °Ë»ç
+			//ë°°ì—´ í•œ ë°©ì˜ ê¸¸ì´ ë§Œí¼ ê²€ì‚¬
 			for(int j=0; j<arr[i].length(); j++) {
-				//OX ÄûÁî
+				//OX í€´ì¦ˆ
 				if(arr[i].charAt(j)=='O') {
 					cnt++;
 				} else {
@@ -161,7 +161,7 @@ public class Step05 {
 			
 			int N = sc.nextInt();
 			
-			//ÀÔ·Â °ª ´ã´Â ¹è¿­ »ı¼º
+			//ì…ë ¥ ê°’ ë‹´ëŠ” ë°°ì—´ ìƒì„±
 			int[] arr = new int[N];
 			
 			for(int j=0; j<N; j++) {
@@ -173,7 +173,7 @@ public class Step05 {
 			double avg = (sum/N);
 			double cnt = 0;
 			
-			//Æò±Õ ³Ñ´Â ºñÀ² °è»ê 
+			//í‰ê·  ë„˜ëŠ” ë¹„ìœ¨ ê³„ì‚° 
 			for(int k=0; k<N; k++) {
 				if(arr[k]>avg) {
 					cnt++;

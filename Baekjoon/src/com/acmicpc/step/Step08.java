@@ -8,9 +8,9 @@ public class Step08 {
 	}
 	public static void q1712() {
 		Scanner sc = new Scanner(System.in);
-		int A = sc.nextInt();	//°íÁ¤ºñ¿ë 
-		int B = sc.nextInt();	//1´ë´ç.. °¡º¯ºñ¿ë
-		int C = sc.nextInt();	//1´ë´ç °¡°Ý
+		int A = sc.nextInt();	//ê³ ì •ë¹„ìš©
+		int B = sc.nextInt();	//1ëŒ€ë‹¹... ê°€ë³€ë¹„ìš©
+		int C = sc.nextInt();	//1ëŒ€ë‹¹ ê°€ê²©
 		
 		int cnt=1;
 		

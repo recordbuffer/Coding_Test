@@ -41,10 +41,10 @@ public class Step04 {
 		
 		int cnt = 0;
 		
-		int x = N;	//»çÀÌÅ¬ ÈÄ ¼ıÀÚ
+		int x = N;	
 	
 		while(true) {
-			
+				//ëª«			 ë‚˜ë¨¸ì§€	
 			x = (((x%10)*10)+((x/10)+(x%10))%10);
 			cnt++;
 			
