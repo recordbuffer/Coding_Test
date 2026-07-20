@@ -5,3 +5,6 @@ __pycache__/
 *.py[cod]
 .venv/
 node_modules/
+
+# 로컬 테스트/스크래치 파일 (커밋 안 함)
+Programmers/복습.py
