@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>코테 관용구 치트시트</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#666; --line:#d8d8d8; --accent:#0b5; --bg:#fafafa; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    color: var(--ink); font-size: 11px; line-height: 1.6;
+    background:#eee; padding: 16px;
+  }
+  .page {
+    background:#fff; width: 297mm; height: 210mm; margin: 0 auto 16px;
+    padding: 11mm 12mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); overflow: hidden;
+  }
+  .cols { column-count: 3; column-gap: 12mm; height: 100%; }
+  .card {
+    break-inside: avoid; border:1px solid var(--line); border-radius:6px;
+    padding: 11px 13px 12px; margin: 0 0 13px; background: var(--bg);
+  }
+  .card h2 {
+    font-size: 12px; margin: 0 0 9px; padding-bottom: 4px;
+    border-bottom: 2px solid var(--accent); display:inline-block;
+  }
+  .row { margin: 9px 0; }
+  .want { font-weight: 600; font-size: 10.5px; color:#333; margin-bottom: 3px; }
+  pre {
+    margin: 3px 0 0; padding: 7px 9px; background:#fff; border:1px solid #eaeaea;
+    border-radius:4px; font-family: "Consolas","D2Coding",monospace; font-size: 10px;
+    line-height:1.65; white-space: pre-wrap; word-break: break-word;
+  }
+  .cmt { color:#888; }
+  .warn { color:#b00; font-weight:600; }
+  code.inl { font-family:"Consolas",monospace; background:#eef; padding:0 3px; border-radius:3px; }
+
+  @media print {
+    body { background:#fff; padding:0; }
+    .page {
+      box-shadow:none; margin:0; width:auto; height:auto; min-height: auto;
+      padding: 0; overflow: visible; page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .cols { height: auto; }
+    @page { size: A4 landscape; margin: 9mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== 1쪽 : Hash · String ===================== -->
+<div class="page">
+  <div class="cols">
+
+    <div class="card">
+      <h2>빈도 세기 · Counter</h2>
+      <div class="row"><div class="want">개수 세기</div>
+<pre>from collections import Counter
+c = Counter(arr)      <span class="cmt"># {값:개수}</span>
+c["a"]                <span class="cmt"># 없으면 0 (에러X)</span></pre></div>
+      <div class="row"><div class="want">빼기 (없는 것만 남기기)</div>
+<pre>Counter(a) - Counter(b)
+<span class="cmt"># 완주 못한 선수: 참가-완주</span>
+list(Counter(a)-Counter(b))[0]</pre></div>
+      <div class="row"><div class="want">가장 많은 것 N개</div>
+<pre>c.most_common(2)   <span class="cmt"># [(값,개수),...]</span></pre></div>
+    </div>
+
+    <div class="card">
+      <h2>중복 · 존재 확인 · set</h2>
+<pre>set(arr)          <span class="cmt"># 중복 제거</span>
+len(set(arr))     <span class="cmt"># 종류 개수</span>
+x in myset        <span class="cmt"># 존재? (빠름 O(1))</span>
+a &amp; b  a | b  a - b <span class="cmt"># 교/합/차집합</span></pre>
+      <div class="row"><span class="warn">※</span> 순서·연속중복 필요하면 set 쓰지 마라</div>
+    </div>
+
+    <div class="card">
+      <h2>딕셔너리</h2>
+<pre>d.get(k, 0)          <span class="cmt"># 없으면 기본값</span>
+d[k] = d.get(k,0)+1  <span class="cmt"># 누적</span>
+
+from collections import defaultdict
+d = defaultdict(int)  <span class="cmt"># 없으면 0</span>
+d = defaultdict(list) <span class="cmt"># 없으면 []</span>
+for k, v in d.items(): ...</pre>
+    </div>
+
+    <div class="card">
+      <h2>문자열</h2>
+      <div class="row"><div class="want">나누기 · 합치기</div>
+<pre>s.split()       <span class="cmt"># 공백 기준</span>
+s.split(",")    <span class="cmt"># 특정 문자 기준</span>
+"".join(리스트)  <span class="cmt"># 리스트→문자열</span>
+"-".join(리스트) <span class="cmt"># 사이에 - 넣어 합침</span></pre></div>
+      <div class="row"><div class="want">검사 · 변형</div>
+<pre>s.startswith(t) <span class="cmt"># 접두사?(전화번호목록)</span>
+s.count("a")    <span class="cmt"># 개수</span>
+s.replace(a,b)  s.strip() <span class="cmt"># 치환/양끝공백</span>
+s.upper() s.lower() s.isdigit()</pre></div>
+      <div class="row"><div class="want">뒤집기 · 반복</div>
+<pre>s[::-1]         <span class="cmt"># 문자열 뒤집기</span>
+"ab"*3          <span class="cmt"># "ababab"</span></pre></div>
+      <div class="row"><div class="want">문자 ↔ 숫자 (아스키)</div>
+<pre>ord("a")  <span class="cmt"># 97</span>   chr(97)  <span class="cmt"># "a"</span>
+<span class="cmt"># 알파벳 번호: ord(c)-ord("a") → 0~25</span></pre></div>
+    </div>
+
+    <div class="card">
+      <h2>슬라이싱 · 1-indexed 변환</h2>
+<pre>arr[a:b]   <span class="cmt"># a~b-1 (b 미포함)</span>
+arr[i-1:j] <span class="cmt"># "i번째~j번째"(1-idx)</span>
+arr[k-1]   <span class="cmt"># "k번째" 값 (1-idx)</span>
+arr[::-1]  <span class="cmt"># 뒤집기</span>
+arr[-1]    <span class="cmt"># 마지막</span></pre>
+      <div class="row"><span class="warn">off-by-one:</span> <code class="inl">i+1</code> 쓸 때만 <code class="inl">range(len-1)</code></div>
+    </div>
+
+    <div class="card">
+      <h2>반복문</h2>
+<pre>for x in arr:        <span class="cmt"># 값</span>
+for i in range(len(arr)): <span class="cmt"># 번호</span>
+for i, x in enumerate(arr): <span class="cmt"># 둘 다</span>
+for a, b in zip(A, B): <span class="cmt"># 짝지어</span></pre>
+      <div class="row"><div class="want">command 풀기 (언패킹)</div>
+<pre>for i, j, k in commands:  <span class="cmt"># [2,5,3]→i,j,k</span></pre></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== 2쪽 : Sorting · Stack · 공통 ===================== -->
+<div class="page">
+  <div class="cols">
+
+    <div class="card">
+      <h2>정렬 · sorted / key</h2>
+      <div class="row"><div class="want">기본</div>
+<pre>sorted(arr)              <span class="cmt"># 새 리스트</span>
+arr.sort()               <span class="cmt"># 원본 변경, 반환 None</span>
+sorted(arr, reverse=True)</pre></div>
+      <div class="row"><div class="want">기준 정하기 (key)</div>
+<pre>sorted(arr, key=lambda x: x[1])
+<span class="cmt"># 각 원소의 x[1]로 정렬</span></pre></div>
+      <div class="row"><div class="want">다단계: 1순위, 2순위</div>
+<pre>sorted(arr, key=lambda x: (x[0], x[1]))
+<span class="cmt"># x[0]로, 같으면 x[1]로</span></pre></div>
+      <div class="row"><div class="want">혼합 방향 (숫자만 내림)</div>
+<pre>key=lambda x: (-x[1], x[0])
+<span class="cmt"># 점수 내림, 같으면 이름 오름</span>
+<span class="warn">※ 음수는 숫자만. reverse는 전체 뒤집음</span></pre></div>
+      <div class="row" style="margin-top:6px;padding-top:5px;border-top:1px dashed #bbb;">
+        <div class="want">핵심 3</div>
+<pre>1) key = "무엇을 기준으로"
+2) 튜플 = "1순위, 2순위" <span class="cmt"># 앞 같을때 뒤</span>
+3) 숫자 내림 = 음수(-)</pre></div>
+    </div>
+
+    <div class="card">
+      <h2>스택 · 큐 · deque</h2>
+      <div class="row"><div class="want">스택 (뒤로 넣고 뒤로 빼기)</div>
+<pre>stack = []
+stack.append(x)
+stack.pop()        <span class="cmt"># 마지막 꺼냄</span>
+stack[-1]          <span class="cmt"># 안 빼고 보기(top)</span></pre></div>
+      <div class="row"><div class="want">큐 (앞으로 빼기) = deque</div>
+<pre>from collections import deque
+q = deque()
+q.append(x)        <span class="cmt"># 뒤에 넣기</span>
+q.popleft()        <span class="cmt"># 앞에서 빼기 O(1)</span></pre>
+      <span class="warn">※</span> <code class="inl">list.pop(0)</code>는 느림 → 큐는 꼭 deque</div>
+      <div class="row"><div class="want">짝맞추기 패턴 (괄호검사)</div>
+<pre>for c in s:
+    if c == "(":
+        stack.append(c)
+    else:                  <span class="cmt"># 닫는 괄호</span>
+        if not stack: return False
+        stack.pop()
+return not stack   <span class="cmt"># 남으면 실패</span></pre></div>
+    </div>
+
+    <div class="card">
+      <h2>수학 · 나눗셈/올림</h2>
+<pre>a // b     <span class="cmt"># 몫 (내림)</span>
+a % b      <span class="cmt"># 나머지</span>
+divmod(a,b) <span class="cmt"># (몫, 나머지) 한번에</span>
+
+<span class="want">올림 나눗셈</span> <span class="cmt"># 기능개발 등</span>
+import math
+math.ceil((100 - progress) / speed)
+-(-a // b)  <span class="cmt"># import 없이 올림</span></pre>
+    </div>
+
+    <div class="card">
+      <h2>자주 쓰는 내장함수</h2>
+<pre>min(arr)  max(arr)  sum(arr)
+len(arr)  abs(x)
+any(조건 for ..)  <span class="cmt"># 하나라도 참</span>
+all(조건 for ..)  <span class="cmt"># 전부 참</span>
+sorted / reversed / enumerate / zip</pre>
+    </div>
+
+    <div class="card">
+      <h2>백준 빠른 입출력</h2>
+<pre>import sys
+input = sys.stdin.readline
+n = int(input())
+arr = list(map(int, input().split()))</pre>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
