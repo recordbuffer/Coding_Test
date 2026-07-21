@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SQL 관용구 치트시트 (MySQL)</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#666; --line:#d8d8d8; --accent:#07a; --bg:#fafafa; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    color: var(--ink); font-size: 11px; line-height: 1.6;
+    background:#eee; padding: 16px;
+  }
+  .page {
+    background:#fff; width: 297mm; height: 210mm; margin: 0 auto 16px;
+    padding: 11mm 12mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); overflow: hidden;
+  }
+  .cols { column-count: 3; column-gap: 12mm; height: 100%; }
+  .card {
+    break-inside: avoid; border:1px solid var(--line); border-radius:6px;
+    padding: 11px 13px 12px; margin: 0 0 13px; background: var(--bg);
+  }
+  .card h2 {
+    font-size: 12px; margin: 0 0 9px; padding-bottom: 4px;
+    border-bottom: 2px solid var(--accent); display:inline-block;
+  }
+  .row { margin: 9px 0; }
+  .want { font-weight: 600; font-size: 10.5px; color:#333; margin-bottom: 3px; }
+  pre {
+    margin: 3px 0 0; padding: 7px 9px; background:#fff; border:1px solid #eaeaea;
+    border-radius:4px; font-family: "Consolas","D2Coding",monospace; font-size: 10px;
+    line-height:1.65; white-space: pre-wrap; word-break: break-word;
+  }
+  .cmt { color:#888; }
+  .warn { color:#b00; font-weight:600; }
+  .kw { color:#07a; font-weight:600; }
+  code.inl { font-family:"Consolas",monospace; background:#e8f2f8; padding:0 3px; border-radius:3px; }
+
+  @media print {
+    body { background:#fff; padding:0; }
+    .page {
+      box-shadow:none; margin:0; width:auto; height:auto; min-height: auto;
+      padding: 0; overflow: visible; page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .cols { height: auto; }
+    @page { size: A4 landscape; margin: 9mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== 1쪽 : 기초 (SELECT · 조건 · NULL · 집계) ===================== -->
+<div class="page">
+  <div class="cols">
+
+    <div class="card">
+      <h2>기본 골격 · 실행 순서</h2>
+      <div class="row"><div class="want">작성 순서 (외워라)</div>
+<pre><span class="kw">SELECT</span>   컬럼
+<span class="kw">FROM</span>     테이블
+<span class="kw">WHERE</span>    행 조건       <span class="cmt"># 집계 전 필터</span>
+<span class="kw">GROUP BY</span> 묶을 컬럼
+<span class="kw">HAVING</span>   그룹 조건     <span class="cmt"># 집계 후 필터</span>
+<span class="kw">ORDER BY</span> 정렬 <span class="kw">LIMIT</span> n</pre></div>
+      <div class="row"><span class="warn">※</span> 실제 실행은 FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY.
+      그래서 <code class="inl">WHERE</code>에선 <span class="warn">별칭(AS) 못 씀</span>, <code class="inl">HAVING</code>·<code class="inl">ORDER BY</code>에선 됨</div>
+    </div>
+
+    <div class="card">
+      <h2>SELECT · 정렬 · 상위 n</h2>
+<pre><span class="kw">SELECT</span> * <span class="kw">FROM</span> ANIMAL_INS;
+<span class="kw">SELECT</span> ANIMAL_ID, NAME  <span class="cmt"># 특정 컬럼</span>
+<span class="kw">SELECT DISTINCT</span> ANIMAL_TYPE <span class="cmt"># 중복 제거</span></pre>
+      <div class="row"><div class="want">정렬 (기본 오름차순)</div>
+<pre><span class="kw">ORDER BY</span> NAME              <span class="cmt"># 오름 ASC</span>
+<span class="kw">ORDER BY</span> DATETIME <span class="kw">DESC</span>    <span class="cmt"># 내림</span>
+<span class="kw">ORDER BY</span> NAME, DATETIME <span class="kw">DESC</span> <span class="cmt"># 1순위 이름, 같으면 시각 내림</span></pre></div>
+      <div class="row"><div class="want">상위 n개 (가장 먼저/큰 것)</div>
+<pre><span class="kw">ORDER BY</span> DATETIME <span class="kw">LIMIT</span> 1
+<span class="cmt"># "가장 먼저 들어온" = 정렬 후 LIMIT</span></pre></div>
+    </div>
+
+    <div class="card">
+      <h2>조건 · WHERE</h2>
+<pre>= != &lt;&gt;  &gt; &lt; &gt;= &lt;=
+<span class="kw">AND</span> / <span class="kw">OR</span> / <span class="kw">NOT</span></pre>
+      <div class="row"><div class="want">범위 · 목록 · 패턴</div>
+<pre><span class="kw">BETWEEN</span> 10 <span class="kw">AND</span> 20   <span class="cmt"># 10~20 (양끝 포함)</span>
+<span class="kw">IN</span> ('Dog','Cat')      <span class="cmt"># 여럿 중 하나</span>
+<span class="kw">NOT IN</span> (...)
+NAME <span class="kw">LIKE</span> 'A%'      <span class="cmt"># A로 시작</span>
+NAME <span class="kw">LIKE</span> '%el%'    <span class="cmt"># el 포함</span>
+NAME <span class="kw">LIKE</span> '_a%'     <span class="cmt"># 2번째가 a (_=한 글자)</span></pre></div>
+    </div>
+
+    <div class="card">
+      <h2>NULL 처리 (자주 나옴)</h2>
+      <div class="row"><span class="warn">NULL은 = 로 못 비교한다</span></div>
+<pre><span class="kw">WHERE</span> NAME <span class="kw">IS NULL</span>
+<span class="kw">WHERE</span> NAME <span class="kw">IS NOT NULL</span></pre>
+      <div class="row"><div class="want">NULL을 다른 값으로 대체</div>
+<pre><span class="kw">IFNULL</span>(NAME, 'No name')   <span class="cmt"># MySQL</span>
+<span class="kw">COALESCE</span>(NAME, 'No name') <span class="cmt"># 표준, 첫 non-NULL</span></pre></div>
+      <div class="row"><span class="warn">※</span> <code class="inl">!= 'Aged'</code> 는 NULL 행을 <span class="warn">빠뜨린다</span>.
+      NULL도 포함하려면 <code class="inl">OR col IS NULL</code> 추가</div>
+    </div>
+
+    <div class="card">
+      <h2>집계 · GROUP BY · HAVING</h2>
+      <div class="row"><div class="want">집계 함수</div>
+<pre><span class="kw">COUNT</span>(*)          <span class="cmt"># 행 수 (NULL 포함)</span>
+<span class="kw">COUNT</span>(NAME)       <span class="cmt"># NULL 제외 개수</span>
+<span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> ANIMAL_TYPE) <span class="cmt"># 종류 수</span>
+<span class="kw">SUM MAX MIN AVG</span></pre></div>
+      <div class="row"><div class="want">묶어서 세기</div>
+<pre><span class="kw">SELECT</span> ANIMAL_TYPE, <span class="kw">COUNT</span>(*)
+<span class="kw">FROM</span> ANIMAL_INS
+<span class="kw">GROUP BY</span> ANIMAL_TYPE;</pre></div>
+      <div class="row"><div class="want">그룹 조건 = HAVING</div>
+<pre><span class="kw">GROUP BY</span> NAME
+<span class="kw">HAVING</span> <span class="kw">COUNT</span>(*) &gt;= 2  <span class="cmt"># 2번 이상 등장한 이름</span></pre>
+      <span class="warn">※</span> 집계 결과 조건은 WHERE 아니라 <span class="warn">HAVING</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== 2쪽 : JOIN · 함수 · 서브쿼리 ===================== -->
+<div class="page">
+  <div class="cols">
+
+    <div class="card">
+      <h2>JOIN (테이블 연결)</h2>
+      <div class="row"><div class="want">양쪽 다 있는 것만 = INNER</div>
+<pre><span class="kw">SELECT</span> i.ANIMAL_ID, i.NAME
+<span class="kw">FROM</span> ANIMAL_INS i
+<span class="kw">JOIN</span> ANIMAL_OUTS o        <span class="cmt"># INNER 생략형</span>
+  <span class="kw">ON</span> i.ANIMAL_ID = o.ANIMAL_ID;</pre></div>
+      <div class="row"><div class="want">왼쪽 전부 + 짝 없으면 NULL = LEFT</div>
+<pre><span class="kw">FROM</span> ANIMAL_INS i
+<span class="kw">LEFT JOIN</span> ANIMAL_OUTS o
+  <span class="kw">ON</span> i.ANIMAL_ID = o.ANIMAL_ID
+<span class="kw">WHERE</span> o.ANIMAL_ID <span class="kw">IS NULL</span>
+<span class="cmt"># 들어왔지만 안 나간 동물 = 짝 없음</span></pre></div>
+      <span class="warn">※</span> 테이블에 별칭(<code class="inl">i</code>,<code class="inl">o</code>) 붙이면 짧고 안 헷갈림</div>
+    </div>
+
+    <div class="card">
+      <h2>문자열 함수</h2>
+<pre><span class="kw">CONCAT</span>(a, '-', b)     <span class="cmt"># 이어붙이기</span>
+<span class="kw">SUBSTR</span>(s, 1, 3)       <span class="cmt"># 1번째부터 3글자</span>
+<span class="kw">LENGTH</span>(s)            <span class="cmt"># 길이</span>
+<span class="kw">UPPER</span>(s) <span class="kw">LOWER</span>(s)
+<span class="kw">REPLACE</span>(s, 'a', 'b')
+<span class="kw">LEFT</span>(s, 2) <span class="kw">RIGHT</span>(s, 2)</pre>
+      <div class="row"><span class="cmt">※ SQL 문자열 위치는 1부터 (0 아님)</span></div>
+    </div>
+
+    <div class="card">
+      <h2>날짜 함수 (DATE)</h2>
+      <div class="row"><div class="want">포맷 바꾸기 (제일 많이 씀)</div>
+<pre><span class="kw">DATE_FORMAT</span>(DATETIME, '%Y-%m-%d')
+<span class="cmt"># 2026-07-21 형태로</span>
+<span class="cmt"># %Y년 %m월 %d일 %H시 %i분 %s초</span></pre></div>
+      <div class="row"><div class="want">부분 추출 · 계산</div>
+<pre><span class="kw">YEAR</span>(d) <span class="kw">MONTH</span>(d) <span class="kw">DAY</span>(d) <span class="kw">HOUR</span>(d)
+<span class="kw">DATEDIFF</span>(a, b)       <span class="cmt"># 일수 차</span>
+<span class="kw">DATE_ADD</span>(d, <span class="kw">INTERVAL</span> 1 DAY)
+<span class="kw">NOW</span>() <span class="kw">CURDATE</span>()</pre></div>
+      <span class="warn">※</span> 날짜 비교는 <code class="inl">WHERE d &gt;= '2026-01-01'</code> 처럼 문자열로도 됨</div>
+    </div>
+
+    <div class="card">
+      <h2>서브쿼리</h2>
+      <div class="row"><div class="want">값 하나와 비교 (스칼라)</div>
+<pre><span class="kw">WHERE</span> DATETIME = (
+  <span class="kw">SELECT MAX</span>(DATETIME) <span class="kw">FROM</span> ANIMAL_INS)
+<span class="cmt"># 가장 최근 = 최댓값과 같은 행</span></pre></div>
+      <div class="row"><div class="want">목록에 포함 (IN)</div>
+<pre><span class="kw">WHERE</span> ANIMAL_ID <span class="kw">IN</span> (
+  <span class="kw">SELECT</span> ANIMAL_ID <span class="kw">FROM</span> ANIMAL_OUTS)</pre></div>
+      <div class="row"><div class="want">FROM 안 서브쿼리엔 별칭 필수</div>
+<pre><span class="kw">FROM</span> (<span class="kw">SELECT</span> ... ) <span class="kw">AS</span> t</pre></div>
+    </div>
+
+    <div class="card">
+      <h2>조건 분기 · CASE</h2>
+<pre><span class="kw">SELECT</span> NAME,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> price &gt;= 100 <span class="kw">THEN</span> 'high'
+    <span class="kw">WHEN</span> price &gt;= 50  <span class="kw">THEN</span> 'mid'
+    <span class="kw">ELSE</span> 'low'
+  <span class="kw">END</span> <span class="kw">AS</span> grade
+<span class="kw">FROM</span> ...</pre>
+      <div class="row"><span class="cmt">※ 등급/구간 나누기 문제의 정석</span></div>
+    </div>
+
+    <div class="card">
+      <h2>자주 틀리는 것 · 핵심 5</h2>
+<pre>1) NULL은 =/!= 로 비교 못 함 → <span class="kw">IS NULL</span>
+2) 집계 후 조건은 <span class="kw">HAVING</span> (WHERE 아님)
+3) != 조건은 NULL 행을 빠뜨림
+4) WHERE엔 SELECT 별칭 못 씀
+5) 문자열·날짜 위치·자리수는 1부터</pre>
+      <div class="row"><span class="cmt">MySQL 기준. 오라클은 IFNULL→NVL, LIMIT→ROWNUM 로 다름</span></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
